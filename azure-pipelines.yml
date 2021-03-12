@@ -33,6 +33,6 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)/my-app/s/dist'
+    targetPath: '$(Pipeline.Workspace)/s/my-app/build'
     artifact: 'dist'
     publishLocation: 'pipeline'
