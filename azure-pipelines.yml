@@ -1,0 +1,38 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '14.x'
+  displayName: 'Install Node.js'
+
+# ... install modules before activating the license
+- script: npm install
+  workingDirectory: 'my-app'
+  displayName: 'Install NPM modules'
+
+- script: npx kendo-ui-license activate
+  workingDirectory: 'my-app'
+  displayName: 'Activate Kendo UI License'
+  env:
+    KENDO_UI_LICENSE: $(KENDO_UI_LICENSE)
+
+# ... run application build after license activation
+- script: npm run build --prod
+  workingDirectory: 'my-app'
+  displayName: 'Build Application'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)/my-app/s/dist'
+    artifact: 'dist'
+    publishLocation: 'pipeline'
