@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 steps:
 - task: NodeTool@0
@@ -16,18 +16,18 @@ steps:
   displayName: 'Install Node.js'
 
 # ... install modules before activating the license
-- script: call npm install
+- script: npm install
   workingDirectory: 'my-app'
   displayName: 'Install NPM modules'
 
-- script: call npx kendo-ui-license activate
+- script: npx kendo-ui-license activate
   workingDirectory: 'my-app'
   displayName: 'Activate Kendo UI License'
   env:
     KENDO_UI_LICENSE: $(KENDO_UI_LICENSE)
 
 # ... run application build after license activation
-- script: call npm run build --prod
+- script: npm run build --prod
   workingDirectory: 'my-app'
   displayName: 'Build Application'
 
